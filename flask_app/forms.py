@@ -24,7 +24,7 @@ class SearchForm(FlaskForm):
     submit = SubmitField("Search")
 
 
-class commentForm(FlaskForm):
+class CommentForm(FlaskForm):
     text = TextAreaField(
         "Comment", validators=[InputRequired(), Length(min=5, max=500)]
     )

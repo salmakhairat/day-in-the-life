@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import current_user
 
 from .. import movie_client
-from ..forms import commentForm, SearchForm
+from ..forms import CommentForm, SearchForm
 from ..models import User, Comment
 from ..utils import current_time
 
@@ -40,7 +40,7 @@ def movie_detail(movie_id):
         flash(err)
         return redirect(url_for("users.login"))
 
-    form = commentForm()
+    form = CommentForm()
     if form.validate_on_submit() and current_user.is_authenticated:
         comment = Comment(
             commenter=current_user._get_current_object(),

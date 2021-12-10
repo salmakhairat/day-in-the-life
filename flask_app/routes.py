@@ -74,7 +74,7 @@ def movie_detail(movie_id):
         flash(str(e))
         return redirect(url_for("main.login"))
 
-    form = MovieReviewForm()
+    form = CommentForm()
     if form.validate_on_submit() and current_user.is_authenticated:
         comment = Comment(
             commenter=current_user._get_current_object(),
