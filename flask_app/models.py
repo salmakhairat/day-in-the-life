@@ -30,6 +30,7 @@ class Comment(db.Document):
 
 class Post(db.document):
     poster = db.ReferenceField(User, required=True)
+    title = db.StringField(required=True, min_length=5, max_length=50)
     content = db.StringField(required=True, min_length=5, max_length=500)
     date = db.StringField(required=True)
     post_id = db.StringField(required=True, min_length=9, max_length=9)
