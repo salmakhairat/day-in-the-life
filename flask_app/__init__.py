@@ -18,13 +18,12 @@ import os
 # local
 from .client import MovieClient
 
-
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 movie_client = MovieClient(os.environ.get("OMDB_API_KEY"))
 
-from .movies.routes import movies
+from .posts.routes import posts
 from .users.routes import users
 
 
@@ -44,7 +43,7 @@ def create_app(test_config=None):
     bcrypt.init_app(app)
 
     app.register_blueprint(users)
-    app.register_blueprint(movies)
+    app.register_blueprint(posts)
     app.register_error_handler(404, page_not_found)
 
     login_manager.login_view = "users.login"

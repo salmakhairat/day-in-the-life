@@ -6,9 +6,9 @@ from ..forms import CommentForm, SearchForm
 from ..models import User, Comment, Post
 from ..utils import current_time
 
-movies = Blueprint("movies", __name__)
+posts = Blueprint("posts", __name__)
 
-@movies.route("/", methods=["GET", "POST"])
+@posts.route("/", methods=["GET", "POST"])
 def index():
     form = SearchForm()
 
@@ -18,7 +18,7 @@ def index():
     return render_template("index.html", form=form)
 
 
-@movies.route("/search-results/<query>", methods=["GET"])
+@posts.route("/search-results/<query>", methods=["GET"])
 def query_results(query):
     try:
         results = movie_client.search(query)
@@ -29,15 +29,11 @@ def query_results(query):
     return render_template("query.html", results=results)
 
 
-@movies.route("/movies/<movie_id>", methods=["GET", "POST"])
+@posts.route("/movies/<movie_id>", methods=["GET", "POST"])
 def post_detail(post_id):
     try:
         result = Post.objects(post_id=post_id)
     except ValueError as e:
-        err = str(e)
-        if err == "Expecting ',' delimiter: line 1 column 54 (char 53)":
-            err = "Error retrieving results: 'Incorrect IMDb ID.'"
-        flash(err)
         return redirect(url_for("users.login"))
 
     form = CommentForm()
@@ -46,8 +42,7 @@ def post_detail(post_id):
             commenter=current_user._get_current_object(),
             content=form.text.data,
             date=current_time(),
-            imdb_id=movie_id,
-            movie_title=result.title,
+            post_id=post_id,
         )
         comment.save()
 
@@ -56,13 +51,28 @@ def post_detail(post_id):
     comments = Comment.objects(imdb_id=movie_id)
 
     return render_template(
-        "movie_detail.html", form=form, movie=result, comments=comments
+        "post_detail.html", form=form, movie=result, comments=comments
     )
 
 
-@movies.route("/user/<username>")
+@posts.route("/user/<username>")
 def user_detail(username):
     user = User.objects(username=username).first()
+    isUser = (user == current_user)
+
+    form = PostForm()
+    if form.validate_on_submit() and current_user.is_authenticated:
+        post = Post(
+            poster=current_user._get_current_object(),
+            content=form.text.data,
+            date=current_time(),
+            post_id= 0, #TODO
+            title=form.title.data
+        )
+        post.save()
+
+        return redirect(request.path)
+
     posts = Post.objects(poster=user)
 
-    return render_template("user_detail.html", username=username, posts=posts)
+    return render_template("user_detail.html", username=username, posts=posts, isUser=isUser)
