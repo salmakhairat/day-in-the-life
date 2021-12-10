@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import current_user
 
 from .. import movie_client
-from ..forms import MovieReviewForm, SearchForm
-from ..models import User, Review
+from ..forms import commentForm, SearchForm
+from ..models import User, Comment
 from ..utils import current_time
 
 movies = Blueprint("movies", __name__)
@@ -40,29 +40,29 @@ def movie_detail(movie_id):
         flash(err)
         return redirect(url_for("users.login"))
 
-    form = MovieReviewForm()
+    form = commentForm()
     if form.validate_on_submit() and current_user.is_authenticated:
-        review = Review(
+        comment = Comment(
             commenter=current_user._get_current_object(),
             content=form.text.data,
             date=current_time(),
             imdb_id=movie_id,
             movie_title=result.title,
         )
-        review.save()
+        comment.save()
 
         return redirect(request.path)
 
-    reviews = Review.objects(imdb_id=movie_id)
+    comments = Comment.objects(imdb_id=movie_id)
 
     return render_template(
-        "movie_detail.html", form=form, movie=result, reviews=reviews
+        "movie_detail.html", form=form, movie=result, comments=comments
     )
 
 
 @movies.route("/user/<username>")
 def user_detail(username):
     user = User.objects(username=username).first()
-    reviews = Review.objects(commenter=user)
+    comments = Comment.objects(commenter=user)
 
-    return render_template("user_detail.html", username=username, reviews=reviews)
+    return render_template("user_detail.html", username=username, comments=comments)

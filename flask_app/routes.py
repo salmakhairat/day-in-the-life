@@ -35,7 +35,7 @@ from .forms import (
     LoginForm,
     UpdateUsernameForm,
 )
-from .models import User, Review, load_user
+from .models import User, Comment, load_user
 from .utils import current_time
 
 
@@ -76,18 +76,17 @@ def movie_detail(movie_id):
 
     form = MovieReviewForm()
     if form.validate_on_submit() and current_user.is_authenticated:
-        review = Review(
+        comment = Comment(
             commenter=current_user._get_current_object(),
             content=form.text.data,
             date=current_time(),
             imdb_id=movie_id,
-            movie_title=result.title,
         )
-        review.save()
+        comment.save()
 
         return redirect(request.path)
 
-    reviews = Review.objects(imdb_id=movie_id)
+    reviews = Comment.objects(imdb_id=movie_id)
 
     return render_template(
         "movie_detail.html", form=form, movie=result, reviews=reviews
