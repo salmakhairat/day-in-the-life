@@ -12,6 +12,8 @@ posts = Blueprint("posts", __name__)
 def index():
     form = SearchForm()
 
+    # TODO
+
     if form.validate_on_submit():
         return redirect(url_for("movies.query_results", query=form.search_query.data))
 
@@ -29,7 +31,7 @@ def query_results(query):
     return render_template("query.html", results=results)
 
 
-@posts.route("/movies/<movie_id>", methods=["GET", "POST"])
+@posts.route("/posts/<post_id>", methods=["GET", "POST"])
 def post_detail(post_id):
     try:
         result = Post.objects(post_id=post_id)

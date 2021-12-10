@@ -28,6 +28,7 @@ class CommentForm(FlaskForm):
     text = TextAreaField(
         "Comment", validators=[InputRequired(), Length(min=5, max=500)]
     )
+    gifQuery = StringField("gifQuery")
     submit = SubmitField("Enter Comment")
 
 
@@ -72,11 +73,9 @@ class UpdateUsernameForm(FlaskForm):
                 raise ValidationError("That username is already taken")
 
 class PostForm(FlaskForm):
-    title = TextAreaField(
-        "postTitle", validators=[InputRequired(), Length(min=5, max=500)]
-    )
+    title = StringField("postTitle", validators=[InputRequired(), Length(min=1, max=50)])
     content = TextAreaField(
         "postContent", validators=[InputRequired(), Length(min=5, max=500)]
     )
-    gifQuery = StringField("gifQuery", validators=[InputRequired()])
+    gifQuery = StringField("gifQuery")
     submit = SubmitField("Enter Post")
