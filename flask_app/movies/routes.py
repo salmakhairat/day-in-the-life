@@ -3,7 +3,7 @@ from flask_login import current_user
 
 from .. import movie_client
 from ..forms import CommentForm, SearchForm
-from ..models import User, Comment
+from ..models import User, Comment, Post
 from ..utils import current_time
 
 movies = Blueprint("movies", __name__)
@@ -30,9 +30,9 @@ def query_results(query):
 
 
 @movies.route("/movies/<movie_id>", methods=["GET", "POST"])
-def movie_detail(movie_id):
+def post_detail(post_id):
     try:
-        result = movie_client.retrieve_movie_by_id(movie_id)
+        result = Post.objects(post_id=post_id)
     except ValueError as e:
         err = str(e)
         if err == "Expecting ',' delimiter: line 1 column 54 (char 53)":
@@ -63,6 +63,6 @@ def movie_detail(movie_id):
 @movies.route("/user/<username>")
 def user_detail(username):
     user = User.objects(username=username).first()
-    comments = Comment.objects(commenter=user)
+    posts = Post.objects(poster=user)
 
-    return render_template("user_detail.html", username=username, comments=comments)
+    return render_template("user_detail.html", username=username, posts=posts)

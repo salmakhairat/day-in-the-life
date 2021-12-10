@@ -70,3 +70,10 @@ class UpdateUsernameForm(FlaskForm):
             user = User.objects(username=username.data).first()
             if user is not None:
                 raise ValidationError("That username is already taken")
+
+class PostForm(FlaskForm):
+    text = TextAreaField(
+        "postText", validators=[InputRequired(), Length(min=5, max=500)]
+    )
+    gifQuery = StringField("gifQuery", validators=[InputRequired()])
+    submit = SubmitField("Enter Post")
