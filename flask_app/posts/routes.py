@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import current_user
 
-from .. import movie_client
+from .. import movie_client #TODO
 from ..forms import CommentForm, SearchForm
 from ..models import User, Comment, Post
 from ..utils import current_time

@@ -25,6 +25,7 @@ class Comment(db.Document):
     commenter = db.ReferenceField(User, required=True)
     content = db.StringField(required=True, min_length=5, max_length=500)
     date = db.StringField(required=True)
+    gif_url = db.StringField(required=False)
     #each post must have a unique post-id of length 9
     post_id = db.StringField(required=True, min_length=9, max_length=9)
 
@@ -32,5 +33,6 @@ class Post(db.document):
     poster = db.ReferenceField(User, required=True)
     title = db.StringField(required=True, min_length=5, max_length=50)
     content = db.StringField(required=True, min_length=5, max_length=500)
+    gif_url = db.StringField(required=False)
     date = db.StringField(required=True)
     post_id = db.StringField(required=True, min_length=9, max_length=9)

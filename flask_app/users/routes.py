@@ -68,3 +68,13 @@ def account():
         title="Account",
         username_form=username_form,
     )
+
+
+@users.route("/verify", methods=["GET", "POST"])
+def verify():
+    verification_form = EmailVerificationForm()
+
+    if verification_form.validate_on_submit():
+        # TODO
+
+    #TODO

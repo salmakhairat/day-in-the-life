@@ -79,3 +79,7 @@ class PostForm(FlaskForm):
     )
     gifQuery = StringField("gifQuery")
     submit = SubmitField("Enter Post")
+
+class EmailVerificationForm(FlaskForm):
+    code = StringField("code", validators=[InputRequired(), Length(min=6, max=6)])
+    submit = SubmitField("Enter")
