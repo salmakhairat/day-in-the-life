@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import current_user
 
-from .. import movie_client #TODO
+from .. import tenor_client
 from ..forms import CommentForm, SearchForm
 from ..models import User, Comment, Post
 from ..utils import current_time
@@ -12,21 +12,17 @@ posts = Blueprint("posts", __name__)
 def index():
     form = SearchForm()
 
-    # TODO
-
     if form.validate_on_submit():
-        return redirect(url_for("movies.query_results", query=form.search_query.data))
+        return redirect(url_for("posts.query_results", query=form.search_query.data))
 
     return render_template("index.html", form=form)
 
 
 @posts.route("/search-results/<query>", methods=["GET"])
 def query_results(query):
-    try:
-        results = movie_client.search(query)
-    except ValueError as e:
-        flash(str(e))
-        return redirect(url_for("movies.index"))
+    # I have no idea if this code works but it's worth a shot
+    all_users = User.objects()
+    results = [user for user in all_users if user.username.startswith(query)]
 
     return render_template("query.html", results=results)
 
@@ -40,21 +36,26 @@ def post_detail(post_id):
 
     form = CommentForm()
     if form.validate_on_submit() and current_user.is_authenticated:
+
+        # Tenor query
+        url = None
+        if form.gifQuery.data:
+            url = client.get_url(client.search(form.gifQuery.data))
+
         comment = Comment(
             commenter=current_user._get_current_object(),
             content=form.text.data,
             date=current_time(),
             post_id=post_id,
+            gif_url = url
         )
         comment.save()
 
         return redirect(request.path)
 
-    comments = Comment.objects(imdb_id=movie_id)
+    comments = Comment.objects(post_id=post_id)
 
-    return render_template(
-        "post_detail.html", form=form, movie=result, comments=comments
-    )
+    return render_template("post_detail.html", form=form, post=result, comments=comments)
 
 
 @posts.route("/user/<username>")
@@ -64,12 +65,18 @@ def user_detail(username):
 
     form = PostForm()
     if form.validate_on_submit() and current_user.is_authenticated:
+
+        url = None
+        if form.gifQuery.data:
+            url = client.get_url(client.search(form.gifQuery.data))
+
         post = Post(
             poster=current_user._get_current_object(),
             content=form.text.data,
             date=current_time(),
-            post_id= 0, #TODO
-            title=form.title.data
+            post_id= 0, #TODO here's the problem we need some global counter to keep track of # of posts so each post gets a unique id
+            title=form.title.data,
+            gif_url = url
         )
         post.save()
 

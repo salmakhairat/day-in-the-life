@@ -4,6 +4,8 @@ from flask_login import current_user, login_required, login_user, logout_user
 from .. import bcrypt
 from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm
 from ..models import User
+from flask_mail import Message
+from ..utils import gen_code
 
 users = Blueprint("users", __name__)
 
@@ -11,7 +13,7 @@ users = Blueprint("users", __name__)
 @users.route("/register", methods=["GET", "POST"])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for("movies.index"))
+        return redirect(url_for("posts.index"))
 
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -27,7 +29,7 @@ def register():
 @users.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("movies.index"))
+        return redirect(url_for("posts.index"))
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -36,6 +38,8 @@ def login():
         if user is not None and bcrypt.check_password_hash(
             user.password, form.password.data
         ):
+
+            # TODO send email verification
             login_user(user)
             return redirect(url_for("users.account"))
         else:
@@ -49,7 +53,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("movies.index"))
+    return redirect(url_for("posts.index"))
 
 
 @users.route("/account", methods=["GET", "POST"])
@@ -58,7 +62,6 @@ def account():
     username_form = UpdateUsernameForm()
 
     if username_form.validate_on_submit():
-        # current_user.username = username_form.username.data
         current_user.modify(username=username_form.username.data)
         current_user.save()
         return redirect(url_for("users.account"))

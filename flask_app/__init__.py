@@ -16,16 +16,18 @@ from datetime import datetime
 import os
 
 # local
-from .client import MovieClient
+from .client import TenorClient
 
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-movie_client = MovieClient(os.environ.get("OMDB_API_KEY"))
+tenor_client = TenorClient()
 
 from .posts.routes import posts
 from .users.routes import users
 
+# Flask-Mail
+from flask_mail import Mail
 
 def page_not_found(e):
     return render_template("404.html"), 404
@@ -33,6 +35,7 @@ def page_not_found(e):
 
 def create_app(test_config=None):
     app = Flask(__name__)
+    mail = Mail(app)
 
     app.config.from_pyfile("config.py", silent=False)
     if test_config is not None:
