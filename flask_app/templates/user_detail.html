@@ -1,10 +1,7 @@
 {% extends "header.html" %} {% block content %}
 <div class="row">
     <div class="col">
-        <img class="propic" src="data:image/png;base64,{{image}}" alt="image">
-    </div>
-    <div class="col">
-        <h2>{{ username }}'s Reviews</h2>
+        <h2>{{ username }}'s Posts</h2>
     </div>
 </div>
 <div class="row">
@@ -17,12 +14,12 @@
                     <span class="float-right">
                         <small>{{ post.date }}</small>
                     </span>
-                    <strong>For: <a href="{{ url_for('movies.movie_detail', movie_id=review.imdb_id) }}">
-                            {{ review.movie_title }}
+                    <strong>For: <a href="{{ url_for('posts.post_detail', post_id=post.post_id) }}">
+                            {{ post.title }}
                         </a>
                     </strong>
                     <p>
-                        {{ review.content }}
+                        {{ post.content }}
                     </p>
                 </div>
             </li>
