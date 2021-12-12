@@ -37,6 +37,13 @@ def create_app(test_config=None):
     app = Flask(__name__)
     mail = Mail(app)
 
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USERNAME'] = 'dayinthelife.cmsc388jproject@gmail.com'
+    app.config['MAIL_PASSWORD'] = 'dayinthelife132'
+    app.config['MAIL_USE_TLS'] = False
+    app.config['MAIL_USE_SSL'] = True
+
     app.config.from_pyfile("config.py", silent=False)
     if test_config is not None:
         app.config.update(test_config)

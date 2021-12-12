@@ -78,6 +78,6 @@ def verify():
     verification_form = EmailVerificationForm()
 
     if verification_form.validate_on_submit():
-        # TODO
+        if (verification_form.code == )
 
     #TODO
