@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, url_for, render_template, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
 
-from .. import bcrypt
+from .. import bcrypt, mail
 from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm, EmailVerificationForm
 from ..models import User
 from flask_mail import Message
@@ -18,7 +18,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        user = User(username=form.username.data, email=form.email.data, password=hashed, confirmed=False, code=gencode())
+        user = User(username=form.username.data, email=form.email.data, password=hashed, confirmed=False, code=gen_code())
         user.save()
 
         msg = Message(f"Your verification code is {user.code}",

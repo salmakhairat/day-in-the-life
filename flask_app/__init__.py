@@ -1,5 +1,6 @@
 # 3rd-party packages
 from flask import Flask, render_template, request, redirect, url_for
+from flask_mail import Mail
 from flask_mongoengine import MongoEngine
 from flask_login import (
     LoginManager,
@@ -22,12 +23,10 @@ db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 tenor_client = TenorClient()
+mail = Mail()
 
 from .posts.routes import posts
 from .users.routes import users
-
-# Flask-Mail
-from flask_mail import Mail
 
 def page_not_found(e):
     return render_template("404.html"), 404
@@ -35,7 +34,7 @@ def page_not_found(e):
 
 def create_app(test_config=None):
     app = Flask(__name__)
-    mail = Mail(app)
+    mail.init_app(app)
 
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 465

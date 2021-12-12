@@ -11,11 +11,11 @@ def load_user(user_id):
     return User.objects(username=user_id).first()
 
 
-class User(db.Document, UsrMixin):
+class User(db.Document, UserMixin):
     username = db.StringField(required=True, unique=True)
     email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True)
-    confirmed = db.Boolean(required=True)
+    confirmed = db.BooleanField(required=True)
     code = db.StringField(required=True)
 
     # Returns unique string identifying our object
@@ -31,7 +31,7 @@ class Comment(db.Document):
     # All comments under the same post should have the same post_id
     post_id = db.StringField(required=True, min_length=9, max_length=9)
 
-class Post(db.document):
+class Post(db.Document):
     poster = db.ReferenceField(User, required=True)
     title = db.StringField(required=True, min_length=5, max_length=50)
     content = db.StringField(required=True, min_length=5, max_length=500)
