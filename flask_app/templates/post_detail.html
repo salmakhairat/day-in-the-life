@@ -1,5 +1,5 @@
 {% extends "header.html" %} {% block content %} {% if error_msg %}
-<b>{{ error_msg }}</b> {% endif %} {% if movie %} {# Display card for the movie details #}
+<b>{{ error_msg }}</b> {% endif %} {% if post %} {# Display card for post details #}
 <div class="row">
     <div class="col">
         <div class="card text-center">
@@ -45,7 +45,7 @@
     </div>
 </div>
 
-{% if current_user.is_authenticated %} {# Movie review submission form #}
+{% if current_user.is_authenticated %} {# Comment form #}
 <div class="row">
     <div class="col">
         <form method="POST" action="">
