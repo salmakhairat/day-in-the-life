@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import current_user
 
 from .. import tenor_client
-from ..forms import CommentForm, SearchForm
+from ..forms import CommentForm, SearchForm, PostForm
 from ..models import User, Comment, Post
 from ..utils import current_time
 
@@ -40,7 +40,7 @@ def post_detail(post_id):
         # Tenor query
         url = None
         if form.gifQuery.data:
-            url = client.get_url(client.search(form.gifQuery.data))
+            url = tenor_client.get_url(tenor_client.search(form.gifQuery.data))
 
         comment = Comment(
             commenter=current_user._get_current_object(),
@@ -68,7 +68,7 @@ def user_detail(username):
 
         url = None
         if form.gifQuery.data:
-            url = client.get_url(client.search(form.gifQuery.data))
+            url = tenor_client.get_url(tenor_client.search(form.gifQuery.data))
 
         post = Post(
             poster=current_user._get_current_object(),
