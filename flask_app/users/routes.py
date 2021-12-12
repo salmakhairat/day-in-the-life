@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, url_for, render_template, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
 
 from .. import bcrypt
-from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm
+from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm, EmailVerificationForm
 from ..models import User
 from flask_mail import Message
 from ..utils import gen_code
@@ -18,7 +18,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        user = User(username=form.username.data, email=form.email.data, password=hashed)
+        user = User(username=form.username.data, email=form.email.data, password=hashed, confirmed=False)
         user.save()
 
         return redirect(url_for("users.login"))
@@ -35,11 +35,10 @@ def login():
     if form.validate_on_submit():
         user = User.objects(username=form.username.data).first()
 
-        if user is not None and bcrypt.check_password_hash(
-            user.password, form.password.data
-        ):
-
-            # TODO send email verification
+        if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
+            if not user.confirmed:
+                return render_template("verify", title="Verify", form=form)
+                 # TODO send email verification
             login_user(user)
             return redirect(url_for("users.account"))
         else:
