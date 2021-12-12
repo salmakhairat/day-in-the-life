@@ -4,37 +4,39 @@
     <div class="col">
         <div class="card text-center">
             <div class="card-header">
-                {{ movie.title }} ({{ movie.year }})
+                {{ post.title }} ({{ post.date }})
             </div>
             <div class="card-body">
-                <img src="{{ movie.poster_url }}" class="mr-3 movie" alt="alt text">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><b>Directed by:</b> {{ movie.director }}</li>
-                    <li class="list-group-item"><b>Actors:</b> {{ movie.actors }}</li>
-                    <li class="list-group-item"><b>Genres:</b> {{ movie.genres }}</li>
-                    <li class="list-group-item"><b>Awards:</b> {{ movie.awards }}</li>
+                    <a href="{{ url_for('posts.user_detail', username=post.poster.username) }}">
+                        <strong>@{{ post.poster.username }}</strong>
+                    </a>
+                    <p>
+                        {{post.content}}
+                    </p>
+
+                    <img src="{{post.gif_url}}">
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-{# Reviews #}
 <div class="row">
     <div class="col-md-12">
-        <h1> Reviews <small class="float-right">{{ reviews|length }} reviews</small></h1>
+        <h1> Comments <small class="float-right">{{ comments|length }} comments</small></h1>
         <ul class="media-list">
-            {% for review in reviews %}
+            {% for comment in comments %}
             <li class="media review-item">
                 <div class="media-body">
                     <span class="float-right">
-            <small>{{ review.date }}</small>
+            <small>{{ comment.date }}</small>
           </span>
-                    <a href="{{ url_for('movies.user_detail', username=review.commenter.username) }}">
-                        <strong>@{{ review.commenter.username }}</strong>
+                    <a href="{{ url_for('posts.user_detail', username=comment.commenter.username) }}">
+                        <strong>@{{ comment.commenter.username }}</strong>
                     </a>
                     <p>
-                        {{ review.content }}
+                        {{ comment.content }}
                     </p>
                 </div>
             </li>
