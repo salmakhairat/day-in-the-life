@@ -22,6 +22,7 @@ def register():
         user.save()
 
         msg = Message(f"Your verification code is {user.code}",
+                      sender="dayinthelife.cmsc388jproject@gmail.com",
                       recipients=[user.email])
         mail.send(msg)
 
