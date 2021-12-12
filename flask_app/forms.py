@@ -84,6 +84,6 @@ class EmailVerificationForm(FlaskForm):
     code = StringField("code", validators=[InputRequired(), Length(min=6, max=6)])
     submit = SubmitField("Enter")
 
-    #def validate_code(self, sent_code):
-        #if code.data != sent_code:
-            #raise ValidationError("Code does not match sent code")
+    def validate_code(self, code, sent_code):
+        if code.data != sent_code:
+            raise ValidationError("Code does not match sent code")
