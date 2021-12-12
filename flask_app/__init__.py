@@ -34,7 +34,6 @@ def page_not_found(e):
 
 def create_app(test_config=None):
     app = Flask(__name__)
-    mail.init_app(app)
 
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 465
@@ -42,6 +41,8 @@ def create_app(test_config=None):
     app.config['MAIL_PASSWORD'] = 'dayinthelife132'
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True
+
+    mail.init_app(app)
 
     app.config.from_pyfile("config.py", silent=False)
     if test_config is not None:
