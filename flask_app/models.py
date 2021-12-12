@@ -16,6 +16,7 @@ class User(db.Document, UsrMixin):
     email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True)
     confirmed = db.Boolean(required=True)
+    code = db.StringField(required=True)
 
     # Returns unique string identifying our object
     def get_id(self):

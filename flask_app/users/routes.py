@@ -18,10 +18,14 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        user = User(username=form.username.data, email=form.email.data, password=hashed, confirmed=False)
+        user = User(username=form.username.data, email=form.email.data, password=hashed, confirmed=False, code=gencode())
         user.save()
 
-        return redirect(url_for("users.login"))
+        msg = Message(f"Your verification code is {user.code}",
+                      recipients=[user.email])
+        mail.send(msg)
+
+        return redirect(url_for("users.verify"))
 
     return render_template("register.html", title="Register", form=form)
 
@@ -38,7 +42,6 @@ def login():
         if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
             if not user.confirmed:
                 return render_template("verify", title="Verify", form=form)
-                 # TODO send email verification
             login_user(user)
             return redirect(url_for("users.account"))
         else:
@@ -74,9 +77,11 @@ def account():
 
 @users.route("/verify", methods=["GET", "POST"])
 def verify():
-    verification_form = EmailVerificationForm()
+    verify_form = EmailVerificationForm()
+    if verify_form.validate_on_submit():
+        user = User.objects(username=verify_form.username.data).first()
+        user.modify(confirmed=true)
+        user.save()
+        return redirect(url_for("users.login"))
 
-    if verification_form.validate_on_submit():
-        if (verification_form.code == )
-
-    #TODO
+    return render_template("verify.html", form=verify_form)
