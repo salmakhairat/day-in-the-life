@@ -70,15 +70,27 @@ def user_detail(username):
         if form.gifQuery.data:
             url = tenor_client.get_url(tenor_client.search(form.gifQuery.data))
 
+        counter = Counter.objects().first()
+
+        if counter is None:
+            counter = Counter (
+                number= str(0)
+            )
+            counter.save()
+
+        new_number = str(int(counter.number) + 1)
         post = Post(
             poster=current_user._get_current_object(),
             content=form.text.data,
             date=current_time(),
-            post_id= 0, #TODO here's the problem we need some global counter to keep track of # of posts so each post gets a unique id
+            post_id= new_number,
             title=form.title.data,
             gif_url = url
         )
         post.save()
+
+        counter.modify(number=new_number)
+        counter.save()
 
         return redirect(request.path)
 

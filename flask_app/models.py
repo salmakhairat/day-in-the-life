@@ -38,3 +38,6 @@ class Post(db.document):
     gif_url = db.StringField(required=False)
     date = db.StringField(required=True)
     post_id = db.StringField(required=True, min_length=9, max_length=9)
+
+class Counter(db.Document):
+    number = db.StringField(requried=True)
