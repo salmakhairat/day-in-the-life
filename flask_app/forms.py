@@ -85,7 +85,7 @@ class EmailVerificationForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired(), Length(min=1, max=40)])
     submit = SubmitField("Enter")
 
-    def validate_code(self, code, username):
-        user = User.objects(username=username.data).first()
-        if code.data != user.code:
-            raise ValidationError("Code does not match sent code")
+    #def validate_code(self, code):
+    #    user = User.objects(username=username.data).first()
+    #    if code.data != user.code:
+    #        raise ValidationError("Code does not match sent code")

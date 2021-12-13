@@ -3,7 +3,7 @@ from flask_login import current_user
 
 from .. import tenor_client
 from ..forms import CommentForm, SearchForm, PostForm
-from ..models import User, Comment, Post
+from ..models import User, Comment, Post, Counter
 from ..utils import current_time
 
 posts = Blueprint("posts", __name__)

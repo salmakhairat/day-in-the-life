@@ -81,7 +81,10 @@ def verify():
     verify_form = EmailVerificationForm()
     if verify_form.validate_on_submit():
         user = User.objects(username=verify_form.username.data).first()
-        user.modify(confirmed=true)
+        if verify_form.code.data != user.code:
+            return redirect(url_for("users.verify"))
+
+        user.modify(confirmed=True)
         user.save()
         return redirect(url_for("users.login"))
 
