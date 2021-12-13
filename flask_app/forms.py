@@ -53,6 +53,17 @@ class RegistrationForm(FlaskForm):
         if user is not None:
             raise ValidationError("Email is taken")
 
+    def validate_password(self, password):
+        if len(password.data) < 8:
+            raise ValidationError("Password must be at least 8 characters long")
+        if len(password.data) > 32:
+            raise ValidationError("Password must be at most 32 characters long")
+        if not any(c.isupper() for c in password.data):
+            raise ValidationError("Password must contain at least one uppercase letter.")
+        if not any(c.islower() for c in password.data):
+            raise ValidationError("Password must contain at least one lowercase letter.")
+        if not any(c.isnumeric() for c in password.data):
+            raise ValidationError("Password must contain at least one number.")
 
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[InputRequired()])
