@@ -58,7 +58,7 @@ def post_detail(post_id):
     return render_template("post_detail.html", form=form, post=result, comments=comments)
 
 
-@posts.route("/user/<username>")
+@posts.route("/user/<username>",  methods=['GET', 'POST'])
 def user_detail(username):
     user = User.objects(username=username).first()
     isUser = (user == current_user)
@@ -96,4 +96,4 @@ def user_detail(username):
 
     posts = Post.objects(poster=user)
 
-    return render_template("user_detail.html", username=username, posts=posts, isUser=isUser)
+    return render_template("user_detail.html", username=username, posts=posts, isUser=isUser, form=form)

@@ -81,7 +81,7 @@ class PostForm(FlaskForm):
     submit = SubmitField("Enter Post")
 
 class EmailVerificationForm(FlaskForm):
-    code = StringField("code", validators=[InputRequired(), Length(min=6, max=6)])
+    code = StringField("Code", validators=[InputRequired(), Length(min=6, max=6)])
     username = StringField("Username", validators=[InputRequired(), Length(min=1, max=40)])
     submit = SubmitField("Enter")
 
