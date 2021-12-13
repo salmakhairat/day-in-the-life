@@ -11,11 +11,23 @@
     <div class="form-group">
         {{ form.title.label(class = "form-control-label green-text") }}
         {{ form.title(class = "form-control form-control-md") }}
+        {% if form.title.errors %}
+        <div class="alert alert-warning" role="alert">
+            {% for error in form.title.errors %}
+            <span>{{ error }}</span> {% endfor %}
+        </div>
+        {% endif %}
     </div>
 
     <div class="form-group">
         {{ form.content.label(class = "form-control-label green-text") }}
         {{ form.content(class = "form-control form-control-md") }}
+        {% if form.content.errors %}
+        <div class="alert alert-warning" role="alert">
+            {% for error in form.content.errors %}
+            <span>{{ error }}</span> {% endfor %}
+        </div>
+        {% endif %}
     </div>
 
     <div class="form-group">

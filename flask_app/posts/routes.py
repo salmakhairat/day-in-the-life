@@ -97,3 +97,7 @@ def user_detail(username):
     posts = Post.objects(poster=user)
 
     return render_template("user_detail.html", username=username, posts=posts, isUser=isUser, form=form, title=username)
+
+@posts.route("/about")
+def about():
+    return render_template("about.html", title="about")
