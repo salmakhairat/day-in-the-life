@@ -6,7 +6,8 @@
             <div class="card-header">
                 <a href="{{ url_for('posts.user_detail', username=post.poster.username) }}">
                     <strong>@{{ post.poster.username }}</strong>
-                </a>at {{ post.date }}<br> {{ post.title }}
+                </a>at {{ post.date }}
+                <h1> {{ post.title }} </h1>
             </div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
@@ -15,7 +16,9 @@
                         {{post.content}}
                     </p>
 
-                    <img src="{{post.gif_url}}">
+                    {% if post.gif_url %}
+                    <div class="tenor-gif-embed" data-postid="{{post.gif_url}}" data-share-method="host" data-aspect-ratio="1" data-width="25%"> </div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -24,7 +27,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h1> Comments <small class="float-right">{{ comments|length }} comments</small></h1>
+        <h2> Comments <small class="float-right">{{ comments|length }} comments</small></h2>
         <ul class="media-list">
             {% for comment in comments %}
             <li class="media review-item">
