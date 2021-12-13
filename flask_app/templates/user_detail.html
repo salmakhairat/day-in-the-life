@@ -1,12 +1,24 @@
 {% extends "header.html" %} {% block content %}
 
 <div class="row">
-    <h1>{{ username }}'s page</h1>
+    <div class="col">
+        {# User's Profile Picture #}
+        <img width="400" src="data:image/png;base64, {{ image }}" alt="">
+        <br>
+    </div>
+    <div class="col">
+        <h1>{{ username }}'s Page</h1>
+        <h5> Description: &nbsp; </h5>
+        <div class="description">
+            <p> {{current_user.description}}</p>
+        </div>
+    </div>
 </div>
 
 {% if current_user.username == username %}
 <form action="" method="post">
     {{ form.csrf_token }}
+    <br>
     <h2>Create a post</h2>
     <div class="form-group">
         {{ form.title.label(class = "form-control-label green-text") }}
@@ -42,6 +54,7 @@
 {% endif %}
 <div class="row">
     <div class="col">
+        <br>
         {% if current_user.username == username %}
         <h2> Your posts <small class="float-right">{{ posts.count() }} posts</small></h2>
         {% else %}
