@@ -30,7 +30,7 @@ def query_results(query):
 @posts.route("/posts/<post_id>", methods=["GET", "POST"])
 def post_detail(post_id):
     try:
-        result = Post.objects(post_id=post_id)
+        post = Post.objects(post_id=post_id).first()
     except ValueError as e:
         return redirect(url_for("users.login"))
 
@@ -55,7 +55,7 @@ def post_detail(post_id):
 
     comments = Comment.objects(post_id=post_id)
 
-    return render_template("post_detail.html", form=form, post=result, comments=comments)
+    return render_template("post_detail.html", form=form, post=post, comments=comments)
 
 
 @posts.route("/user/<username>",  methods=['GET', 'POST'])
