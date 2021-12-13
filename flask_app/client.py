@@ -1,6 +1,6 @@
 import requests
 import json
-
+import os
 
 class TenorClient():
     def __init__(self):
