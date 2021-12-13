@@ -72,6 +72,11 @@ class UpdateUsernameForm(FlaskForm):
             if user is not None:
                 raise ValidationError("That username is already taken")
 
+class UpdateDescriptionForm(FlaskForm):
+    desc = TextAreaField("Description", validators=[InputRequired(), Length(min=5, max=500)])
+    desc_submit = SubmitField("Update Description")
+
+
 class PostForm(FlaskForm):
     title = StringField("Title", validators=[InputRequired(), Length(min=5, max=50)])
     content = TextAreaField(

@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, url_for, render_template, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
 
 from .. import bcrypt, mail
-from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm, EmailVerificationForm
+from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm, EmailVerificationForm, UpdateDescriptionForm
 from ..models import User
 from flask_mail import Message
 from ..utils import gen_code
@@ -63,16 +63,22 @@ def logout():
 @login_required
 def account():
     username_form = UpdateUsernameForm()
+    desc_form = UpdateDescriptionForm()
 
     if username_form.validate_on_submit():
         current_user.modify(username=username_form.username.data)
         current_user.save()
         return redirect(url_for("users.account"))
 
+    if desc_form.validate_on_submit():
+        current_user.modify(description=desc_form.desc.data)
+        current_user.save()
+        return redirect(url_for("users.account"))
+
     return render_template(
         "account.html",
         title="Account",
-        username_form=username_form,
+        username_form=username_form, desc_form=desc_form
     )
 
 

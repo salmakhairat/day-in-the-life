@@ -2,6 +2,8 @@
 <div class="row">
     <div class="col">
         <h1>Hey, {{ current_user.username }}!</h1>
+        <h4> Description: </h4>
+        <p> {{current_user.description}}</p>
     </div>
 </div>
 <div class="row">
@@ -22,7 +24,28 @@
         </form>
     </div>
 </div>
+<div class="row">
+    <div class="col">
+        {# Description Update Form #}
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ desc_form.csrf_token }}
+            <div class="form-group">
+                {{ desc_form.desc.label }}
+                {{ desc_form.desc(class="form-control") }}
+
+                {% if desc_form.desc.errors %}
+                <div class="alert alert-warning" role="alert">
+                    {% for error in desc_form.desc.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {{ desc_form.desc_submit() }}
+        </form>
+    </div>
+</div>
 <a href="{{ url_for('posts.user_detail', username=current_user.username) }}">
-    <h4>Click here to see all of your posts!</h4>
+    <h4>Click here to see your profile!</h4>
 </a>
 {% endblock %}>
