@@ -1,6 +1,7 @@
 # 3rd-party packages
 from flask import Flask, render_template, request, redirect, url_for
 from flask_mail import Mail
+from flask_talisman import Talisman
 from flask_mongoengine import MongoEngine
 from flask_login import (
     LoginManager,
@@ -34,6 +35,14 @@ def page_not_found(e):
 
 def create_app(test_config=None):
     app = Flask(__name__)
+    csp = {
+        'default-src': ['\'self\'','https://tenor.com'],
+        'style-src': '*',
+        'script-src': ['https://tenor.com', 'https://code.jquery.com',
+                       'https://stackpath.bootstrapcdn.com', 'https://cdn.jsdelivr.net']
+    }
+
+    Talisman(app, content_security_policy=csp)
 
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 465
@@ -43,6 +52,7 @@ def create_app(test_config=None):
     app.config['MAIL_USE_SSL'] = True
 
     mail.init_app(app)
+    app.config["MONGODB_HOST"] = os.getenv("MONGODB_HOST")
 
     app.config.from_pyfile("config.py", silent=False)
     if test_config is not None:
