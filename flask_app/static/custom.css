@@ -1,32 +1,45 @@
-movie {
-    max-width: 80;
-    padding: 1; 
-}
-
-.card-body > img {
+.card-body>img {
     max-width: 200;
 }
 
-.media-list {
-    border-top: 1px dashed rgb(150, 150, 150);
+.query {
+    margin-top: 50px;
+    text-align: center;
 }
 
 .review-item {
     border-bottom: 1px dashed #a5a5a5;
 }
 
-.propic {
-    max-width: 50%;
-}
-
-.comment-pic {
-    max-width: 64px;
-}
-/* .nav-user {
-    border-right: 1px #1d1d1d;
-} */
-
 .token {
     max-width: 800;
     word-wrap: break-word;
+}
+
+.search {
+    margin-top: 20%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#search-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.search-form {
+    margin: auto;
+    display: flex;
+    width: 75%;
+}
+
+.my-container {
+    padding-top: 2%;
+    padding-left: 5%;
+}
+
+#navbar {
+    background-color: rgb(149, 211, 99);
 }
