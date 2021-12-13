@@ -6,6 +6,16 @@ from ..forms import CommentForm, SearchForm, PostForm
 from ..models import User, Comment, Post, Counter
 from ..utils import current_time
 
+import io
+import base64
+
+def get_b64_img(username):
+    user = User.objects(username=username).first()
+    bytes_im = io.BytesIO(user.profile_pic.read())
+    image = base64.b64encode(bytes_im.getvalue()).decode()
+    return image
+
+
 posts = Blueprint("posts", __name__)
 
 @posts.route("/", methods=["GET", "POST"])
@@ -96,7 +106,9 @@ def user_detail(username):
 
     posts = Post.objects(poster=user)
 
-    return render_template("user_detail.html", user=user, username=username, posts=posts, isUser=isUser, form=form, title=username)
+    return render_template("user_detail.html", user=user, username=username, posts=posts,
+                           isUser=isUser, form=form, title=username,
+                           image=get_b64_img(username))
 
 @posts.route("/about")
 def about():

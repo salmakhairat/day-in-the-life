@@ -18,6 +18,8 @@ class User(db.Document, UserMixin):
     confirmed = db.BooleanField(required=True)
     code = db.StringField(required=True)
     description = db.StringField(required=False, min_length=5, max_length=500)
+    profile_pic = db.ImageField()
+
 
     # Returns unique string identifying our object
     def get_id(self):

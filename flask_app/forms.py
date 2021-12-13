@@ -94,3 +94,7 @@ class EmailVerificationForm(FlaskForm):
     #    user = User.objects(username=username.data).first()
     #    if code.data != user.code:
     #        raise ValidationError("Code does not match sent code")
+
+class UpdateProfilePicForm(FlaskForm):
+    picture = FileField('New Profile Picture', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images Only!')])
+    picture_submit = SubmitField("Update Picture")
