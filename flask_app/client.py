@@ -17,8 +17,8 @@ class TenorClient():
 
     def get_url(self, info):
         info = str(info[0])
-        info = info[info.find("'url': 'https://tenor.com/"):]
+        info = info[info.find("'id':"):]
         info = info[:info.find(",")]
-        info = info[8:]
+        info = info[7:]
         info = info[:-1]
         return info

@@ -16,7 +16,9 @@
                         {{post.content}}
                     </p>
 
-                    <img src="{{post.gif_url}}">
+                    {% if post.gif_url %}
+                    <div class="tenor-gif-embed" data-postid="{{post.gif_url}}" data-share-method="host" data-aspect-ratio="1" data-width="25%"> </div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+                    {% endif %}
                 </ul>
             </div>
         </div>
