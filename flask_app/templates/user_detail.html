@@ -1,0 +1,57 @@
+{% extends "header.html" %} {% block content %}
+
+<div class="row">
+    <h1>{{ username }}'s page</h1>
+</div>
+
+{% if current_user.username == username %}
+<form action="" method="post">
+    {{ form.csrf_token }}
+    <h2>Create a post</h2>
+    <div class="form-group">
+        {{ form.title.label(class = "form-control-label green-text") }}
+        {{ form.title(class = "form-control form-control-md") }}
+    </div>
+
+    <div class="form-group">
+        {{ form.content.label(class = "form-control-label green-text") }}
+        {{ form.content(class = "form-control form-control-md") }}
+    </div>
+
+    <div class="form-group">
+        {{ form.gifQuery.label(class = "form-control-label green-text") }}
+        {{ form.gifQuery(class = "form-control form-control-md") }}
+    </div>
+
+    <div class="form-group">
+        {{ form.submit(class = "form-control form-control-lg") }}
+    </div>
+</form>
+{% endif %}
+<div class="row">
+    <div class="col">
+        {% if current_user.username == username %}
+        <h2> Your posts <small class="float-right">{{ posts.count() }} posts</small></h2>
+        {% else %}
+        <h2> Posts <small class="float-right">{{ posts.count() }} posts</small></h2>
+        {% endif %}
+        <ul class="media-list">
+            {% for post in posts %}
+            <li class="media review-item">
+                <div class="media-body">
+                    <br>
+                    <span class="float-right">
+                        <small>{{ post.date }}</small>
+                    </span>
+                    <strong>
+                        <a href="{{ url_for('posts.post_detail', post_id=post.post_id) }}">
+                            {{ post.title }}
+                        </a>
+                    </strong>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

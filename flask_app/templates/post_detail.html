@@ -1,0 +1,76 @@
+{% extends "header.html" %} {% block content %} {% if error_msg %}
+<b>{{ error_msg }}</b> {% endif %} {% if post %} {# Display card for post details #}
+<div class="row">
+    <div class="col">
+        <div class="card text-center">
+            <div class="card-header">
+                <a href="{{ url_for('posts.user_detail', username=post.poster.username) }}">
+                    <strong>@{{ post.poster.username }}</strong>
+                </a>at {{ post.date }}
+                <h1> {{ post.title }} </h1>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+
+                    <p>
+                        {{post.content}}
+                    </p>
+
+                    <center>
+                        {% if post.gif_url %}
+                        <div class="tenor-gif-embed" data-postid="{{post.gif_url}}" data-share-method="host"
+                             data-aspect-ratio="1" data-width="25%"></div>
+                        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+                        {% endif %}
+                    </center>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2> Comments <small class="float-right">{{ comments | length }} comments</small></h2>
+        <ul class="media-list">
+            {% for comment in comments %}
+            <li class="media review-item">
+                <div class="media-body">
+                    <span class="float-right">
+            <small>{{ comment.date }}</small>
+          </span>
+                    <a href="{{ url_for('posts.user_detail', username=comment.commenter.username) }}">
+                        <strong>@{{ comment.commenter.username }}</strong>
+                    </a>
+                    <p>
+                        {{ comment.content }}
+                    </p>
+                    {% if comment.gif_url %}
+                    <div class="tenor-gif-embed" data-postid="{{comment.gif_url}}" data-share-method="host"
+                         data-aspect-ratio="1" data-width="15%"></div>
+                    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% if current_user.is_authenticated %} {# Comment form #}
+<div class="row">
+    <div class="col">
+        <form method="POST" action="">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.text.label }} {{ form.text(class = "form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.gifQuery.label(class = "form-control-label green-text") }}
+                {{ form.gifQuery(class = "form-control form-control-md") }}
+            </div>
+            {{ form.submit() }}
+        </form>
+    </div>
+</div>
+{% endif %} {% endif %} {% endblock content %}
