@@ -27,15 +27,13 @@
     </form>
 </div>
 {% endif %}
-
 <div class="row">
     <div class="col">
-        <h2>Your posts</h2>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
+        {% if current_user.username == username %}
+        <h1> Your posts <small class="float-right">{{ posts.count() }} posts</small></h1>
+        {% else %}
         <h1> Posts <small class="float-right">{{ posts.count() }} posts</small></h1>
+        {% endif %}
         <ul class="media-list">
             {% for post in posts %}
             <li class="media review-item">

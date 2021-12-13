@@ -4,13 +4,13 @@
     <div class="col">
         <div class="card text-center">
             <div class="card-header">
-                {{ post.title }} ({{ post.date }})
+                <a href="{{ url_for('posts.user_detail', username=post.poster.username) }}">
+                    <strong>@{{ post.poster.username }}</strong>
+                </a>at {{ post.date }}<br> {{ post.title }}
             </div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
-                    <a href="{{ url_for('posts.user_detail', username=post.poster.username) }}">
-                        <strong>@{{ post.poster.username }}</strong>
-                    </a>
+
                     <p>
                         {{post.content}}
                     </p>
@@ -51,13 +51,10 @@
         <form method="POST" action="">
             {{ form.csrf_token }}
             <div class="form-group">
-                {{ form.text.label }} {{ form.text(class="form-control") }} {% if form.text.errors %}
-                <div class="alert alert-warning" role="alert">
-                    {% for error in form.text.errors %}
-                    <span>{{ error }}</span> {% endfor %}
-                </div>
-                {% endif %}
-
+                {{ form.text.label }} {{ form.text(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.gifQuery.label(class="form-control-label green-text") }} {{ form.gifQuery(class="form-control form-control-md") }}
             </div>
             {{ form.submit() }}
         </form>

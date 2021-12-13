@@ -28,7 +28,7 @@ class CommentForm(FlaskForm):
     text = TextAreaField(
         "Comment", validators=[InputRequired(), Length(min=5, max=500)]
     )
-    gifQuery = StringField("gifQuery")
+    gifQuery = StringField("Gif")
     submit = SubmitField("Enter Comment")
 
 
