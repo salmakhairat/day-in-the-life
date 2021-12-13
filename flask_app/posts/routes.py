@@ -81,7 +81,7 @@ def user_detail(username):
         new_number = str(int(counter.number) + 1)
         post = Post(
             poster=current_user._get_current_object(),
-            content=form.text.data,
+            content=form.content.data,
             date=current_time(),
             post_id= new_number,
             title=form.title.data,

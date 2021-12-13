@@ -73,11 +73,11 @@ class UpdateUsernameForm(FlaskForm):
                 raise ValidationError("That username is already taken")
 
 class PostForm(FlaskForm):
-    title = StringField("postTitle", validators=[InputRequired(), Length(min=1, max=50)])
+    title = StringField("Title", validators=[InputRequired(), Length(min=1, max=50)])
     content = TextAreaField(
-        "postContent", validators=[InputRequired(), Length(min=5, max=500)]
+        "Content", validators=[InputRequired(), Length(min=5, max=500)]
     )
-    gifQuery = StringField("gifQuery")
+    gifQuery = StringField("Gif")
     submit = SubmitField("Enter Post")
 
 class EmailVerificationForm(FlaskForm):
