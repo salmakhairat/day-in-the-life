@@ -32,12 +32,12 @@ from .users.routes import users
 def page_not_found(e):
     return render_template("404.html"), 404
 
+
 def create_app(test_config=None):
     app = Flask(__name__)
     csp = {
-        #'default-src': ['\'self\'','https://tenor.com'],
+        'default-src': ['\'self\'','https://tenor.com'],
         'style-src': '*',
-        'image-src': '*',
         'script-src': ['https://tenor.com', 'https://code.jquery.com',
                        'https://stackpath.bootstrapcdn.com', 'https://cdn.jsdelivr.net']
     }
@@ -52,12 +52,13 @@ def create_app(test_config=None):
     app.config['MAIL_USE_SSL'] = True
 
     mail.init_app(app)
-
-    app.config["MONGODB_HOST"] = os.getenv("MONGODB_HOST")
+    
 
     app.config.from_pyfile("config.py", silent=False)
     if test_config is not None:
         app.config.update(test_config)
+
+    app.config["MONGODB_HOST"] = os.getenv("MONGODB_HOST")
 
     db.init_app(app)
     login_manager.init_app(app)
