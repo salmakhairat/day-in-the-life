@@ -2,7 +2,9 @@
 <div class="row">
     <div class="col flex-right" data-width="10%">
         {# Profile picture #}
+        {% if image %}
         <img class="propic" width="400" src="data:image/png;base64,{{ image }}" alt="">
+        {% endif %}
         <br>
     </div>
     <div class="col">
