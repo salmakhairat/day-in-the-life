@@ -1,0 +1,82 @@
+{% extends "header.html" %} {% block content %}
+
+<div class="row">
+    <div class="col flex-right">
+        {% if image %} {# User's Profile Picture #}
+        <img width="400" src="data:image/png;base64, {{ image }}" alt="" class="propic"> {% else %}
+        <img width="400" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png" alt="" class="propic"> {% endif %}
+        <br>
+    </div>
+    <div class="col">
+        <h1>{{ username }}'s Page</h1>
+        <h5> Bio: &nbsp; </h5>
+        <div class="bio">
+            <p> {{user.description}}</p>
+        </div>
+    </div>
+</div>
+
+{% if current_user.username == username %}
+<div class="flex-container">
+    <form action="" method="post" class="flex-child">
+        {{ form.csrf_token }}
+        <br>
+        <h2>Create a post</h2>
+        <div class="form-group">
+            {{ form.title.label(class = "form-control-label green-text") }} {{ form.title(class = "form-control form-control-md") }} {% if form.title.errors %}
+            <div class="alert alert-warning" role="alert">
+                {% for error in form.title.errors %}
+                <span>{{ error }}</span> {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.content.label(class = "form-control-label green-text") }} {{ form.content(class = "form-control form-control-md") }} {% if form.content.errors %}
+            <div class="alert alert-warning" role="alert">
+                {% for error in form.content.errors %}
+                <span>{{ error }}</span> {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.gifQuery.label(class = "form-control-label green-text") }} {{ form.gifQuery(class = "form-control form-control-md") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.submit(class="btn btn-dark") }}
+        </div>
+    </form>
+    <div class="flex-child">
+
+    </div>
+</div>
+{% endif %}
+<div class="row">
+    <div class="col">
+        <br> {% if current_user.username == username %}
+        <h2> Your posts <small class="float-right">{{ posts.count() }} posts</small></h2>
+        {% else %}
+        <h2> Posts <small class="float-right">{{ posts.count() }} posts</small></h2>
+        {% endif %}
+        <ul class="media-list">
+            {% for post in posts %}
+            <li class="media review-item">
+                <div class="media-body">
+                    <br>
+                    <span class="float-right">
+                        <small>{{ post.date }}</small>
+                    </span>
+                    <strong>
+                        <a href="{{ url_for('posts.post_detail', post_id=post.post_id) }}">
+                            {{ post.title }}
+                        </a>
+                    </strong>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
