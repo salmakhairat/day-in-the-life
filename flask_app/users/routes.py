@@ -87,7 +87,7 @@ def account():
         return redirect(url_for("users.account"))
 
     if bio_form.validate_on_submit():
-        current_user.modify(bio=bio_form.bio.data)
+        current_user.modify(description=bio_form.bio.data)
         current_user.save()
         return redirect(url_for("users.account"))
 
