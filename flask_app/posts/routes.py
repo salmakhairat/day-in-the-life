@@ -102,7 +102,7 @@ def user_detail(username):
         counter.modify(number=new_number)
         counter.save()
 
-        return redirect(request.path)
+        return redirect(url_for('posts.post_detail', post_id=post.post_id))
 
     posts = Post.objects(poster=user)
 

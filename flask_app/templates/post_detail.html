@@ -2,7 +2,7 @@
 <b>{{ error_msg }}</b> {% endif %} {% if post %} {# Display card for post details #}
 <div class="row">
     <div class="col">
-        <div class="card text-center">
+        <div class="text-center">
             <div class="card-header">
                 <a href="{{ url_for('posts.user_detail', username=post.poster.username) }}">
                     <strong>@{{ post.poster.username }}</strong>
@@ -18,8 +18,7 @@
 
                     <center>
                         {% if post.gif_url %}
-                        <div class="tenor-gif-embed" data-postid="{{post.gif_url}}" data-share-method="host"
-                             data-aspect-ratio="1" data-width="25%"></div>
+                        <div class="tenor-gif-embed" data-postid="{{post.gif_url}}" data-share-method="host" data-aspect-ratio="1" data-width="25%"></div>
                         <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
                         {% endif %}
                     </center>
@@ -46,8 +45,7 @@
                         {{ comment.content }}
                     </p>
                     {% if comment.gif_url %}
-                    <div class="tenor-gif-embed" data-postid="{{comment.gif_url}}" data-share-method="host"
-                         data-aspect-ratio="1" data-width="15%"></div>
+                    <div class="tenor-gif-embed" data-postid="{{comment.gif_url}}" data-share-method="host" data-aspect-ratio="1" data-width="15%"></div>
                     <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
                     {% endif %}
                 </div>
@@ -63,8 +61,7 @@
         <form method="POST" action="">
             {{ form.csrf_token }}
             <div class="form-group">
-                {{ form.text.label }} {{ form.text(class = "form-control") }}
-                {% if form.text.errors %}
+                {{ form.text.label }} {{ form.text(class = "form-control") }} {% if form.text.errors %}
                 <div class="alert alert-warning" role="alert">
                     {% for error in form.text.errors %}
                     <span>{{ error }}</span> {% endfor %}
@@ -72,8 +69,7 @@
                 {% endif %}
             </div>
             <div class="form-group">
-                {{ form.gifQuery.label(class = "form-control-label green-text") }}
-                {{ form.gifQuery(class = "form-control form-control-md") }}
+                {{ form.gifQuery.label(class = "form-control-label green-text") }} {{ form.gifQuery(class = "form-control form-control-md") }}
             </div>
             {{ form.submit() }}
         </form>
