@@ -57,6 +57,7 @@
     color: white;
 }
 
+<<<<<<< HEAD
 .propic {
     border-radius: 100%;
     max-width: 40%;
@@ -66,4 +67,8 @@
 .flex-right {
     display: flex;
     justify-content: right;
+=======
+#navbar {
+    background-color: rgb(149, 211, 99);
+>>>>>>> 1e0566d444b337189cc46e5d8533c9925fca4656
 }
