@@ -1,8 +1,9 @@
 {% extends "header.html" %} {% block content %}
 <div class="row">
     <div class="col flex-right" data-width="10%">
-        {# Profile picture #}
-        <img class="propic" width="400" src="data:image/png;base64,{{ image }}" alt="">
+        {% if image %} {# Profile picture #}
+        <img width="400" src="data:image/png;base64, {{ image }}" alt="" class="propic"> {% else %}
+        <img width="400" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2048px-No_image_available.svg.png" alt="" class="propic"> {% endif %}
         <br>
     </div>
     <div class="col">
