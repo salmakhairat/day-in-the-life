@@ -56,8 +56,4 @@ uritemplate==3.0.1
 urllib3==1.25.11
 Werkzeug==1.0.1
 WTForms==2.3.3
-<<<<<<< HEAD
 gunicorn
-=======
-gunicorn
->>>>>>> e30a06e372291452cc141674a875fabcbd8c4783
