@@ -1,77 +1,77 @@
 {% extends "header.html" %} {% block content %}
 <div class="row">
-    <div class="col" data-width="10%">
+    <div class="col flex-right" data-width="10%">
         {# Profile picture #}
-        <img class="propic" width="400" src="data:image/png;base64,{{ image }}" alt="" >
+        <img class="propic" width="400" src="data:image/png;base64,{{ image }}" alt="">
         <br>
     </div>
     <div class="col">
         <h1>Hey, {{ current_user.username }}!</h1>
-        <h4> Description: </h4>
-        <p> {{current_user.description}}</p>
+        <h4> Bio: </h4>
+        <p> {{current_user.bio}}</p>
     </div>
 </div>
-<div class="row">
-    <div class="col">
-        <form action="" method="post">
-            {{ username_form.csrf_token }}
-            <div class="form-group">
-                {{ username_form.username.label(class="form-control-label") }} {{ username_form.username(class="form-control form-control-lg") }} {% if username_form.username.errors %}
-                <div class="alert alert-warning" role="alert">
-                    {% for error in username_form.username.errors %}
-                    <span>{{ error }}</span> {% endfor %}
-                </div>
-                {% endif %}
+<div class="flex-container">
+    <div class="flex-child">
+        <div class="row">
+            <div class="col">
+                <a href="{{ url_for('posts.user_detail', username=current_user.username) }}" class="btn btn-dark">
+                    Click here to see your page!
+                </a><br><br>
+                <form action="" method="post">
+                    {{ username_form.csrf_token }}
+                    <div class="form-group">
+                        {{ username_form.username.label(class="form-control-label") }} {{ username_form.username(class="form-control form-control-lg") }} {% if username_form.username.errors %}
+                        <div class="alert alert-warning" role="alert">
+                            {% for error in username_form.username.errors %}
+                            <span>{{ error }}</span> {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ username_form.submit(class="btn btn-dark") }}
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                {{ username_form.submit }}
+        </div>
+        <div class="row">
+            <div class="col">
+                {# Profile Picture Update Form #}
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {{ picture_form.csrf_token }}
+                    <div class="form-group">
+                        {{ picture_form.picture.label }} {{ picture_form.picture(class="form-control") }} {% if picture_form.picture.errors %}
+                        <div class="alert alert-warning" role="alert">
+                            {% for error in picture_form.picture.errors %}
+                            <span>{{ error }}</span> {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {{ picture_form.picture_submit(class="btn btn-dark") }}
+                </form>
             </div>
-        </form>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        {# Profile Picture Update Form #}
-        <form method="POST" action="" enctype="multipart/form-data">
-            {{ picture_form.csrf_token }}
-            <div class="form-group">
-                {{ picture_form.picture.label }}
-                {{ picture_form.picture(class="form-control") }}
+        </div>
+        <div class="row">
+            <div class="col">
+                {# Bio Update Form #}
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {{ bio_form.csrf_token }}
+                    <div class="form-group">
+                        {{ bio_form.bio.label }} {{ bio_form.bio(class="form-control") }} {% if bio_form.bio.errors %}
+                        <div class="alert alert-warning" role="alert">
+                            {% for error in bio_form.bio.errors %}
+                            <span>{{ error }}</span> {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {{ bio_form.bio_submit(class="btn btn-dark") }}
+                </form>
+            </div>
+        </div>
 
-                {% if picture_form.picture.errors %}
-                <div class="alert alert-warning" role="alert">
-                    {% for error in picture_form.picture.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-                {% endif %}
-            </div>
-            {{ picture_form.picture_submit() }}
-        </form>
     </div>
-</div>
-<div class="row">
-    <div class="col">
-        {# Description Update Form #}
-        <form method="POST" action="" enctype="multipart/form-data">
-            {{ desc_form.csrf_token }}
-            <div class="form-group">
-                {{ desc_form.desc.label }}
-                {{ desc_form.desc(class="form-control") }}
+    <div class="flex-child">
 
-                {% if desc_form.desc.errors %}
-                <div class="alert alert-warning" role="alert">
-                    {% for error in desc_form.desc.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-                {% endif %}
-            </div>
-            {{ desc_form.desc_submit() }}
-        </form>
     </div>
 </div>
-<a href="{{ url_for('posts.user_detail', username=current_user.username) }}">
-    <h4>Click here to see your page!</h4>
-</a>
 {% endblock %}>

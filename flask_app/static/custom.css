@@ -17,11 +17,13 @@
 }
 
 .search {
-    margin-top: 20%;
+    margin: auto;
+    margin-top: 200px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    max-width: 1200px;
 }
 
 #search-header {
@@ -37,7 +39,31 @@
 
 .my-container {
     padding: 5%;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
-#navbar {
-    background-color: rgb(149, 211, 99);
+.flex-container {
+    display: flex;
+    justify-content: center;
+}
+
+.flex-child {
+    width: 50%;
+}
+
+.site-body {
+    background-color: #40528b;
+    color: white;
+}
+
+.propic {
+    border-radius: 100%;
+    max-width: 40%;
+    margin-right: 100px;
+}
+
+.flex-right {
+    display: flex;
+    justify-content: right;
+}

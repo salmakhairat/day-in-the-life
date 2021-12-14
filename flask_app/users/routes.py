@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, url_for, render_template, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
 
 from .. import bcrypt, mail
-from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm, EmailVerificationForm, UpdateDescriptionForm, UpdateProfilePicForm
+from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm, EmailVerificationForm, UpdateBioForm, UpdateProfilePicForm
 from ..models import User
 from flask_mail import Message
 from ..utils import gen_code
@@ -76,7 +76,7 @@ def logout():
 @login_required
 def account():
     username_form = UpdateUsernameForm()
-    desc_form = UpdateDescriptionForm()
+    bio_form = UpdateBioForm()
     picture_form = UpdateProfilePicForm()
 
     if username_form.validate_on_submit():
@@ -84,8 +84,8 @@ def account():
         current_user.save()
         return redirect(url_for("users.account"))
 
-    if desc_form.validate_on_submit():
-        current_user.modify(description=desc_form.desc.data)
+    if bio_form.validate_on_submit():
+        current_user.modify(bio=bio_form.bio.data)
         current_user.save()
         return redirect(url_for("users.account"))
 
@@ -104,7 +104,7 @@ def account():
     return render_template(
         "account.html",
         title="Account",
-        username_form=username_form, desc_form=desc_form, picture_form=picture_form,
+        username_form=username_form, bio_form=bio_form, picture_form=picture_form,
         image=get_b64_img(current_user.username)
     )
 
